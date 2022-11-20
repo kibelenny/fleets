@@ -1,0 +1,9 @@
+<% 
+getCar = function(car_id){
+    let car = null;
+    Car.findById(car_id, function(err, data){
+        err ? console.log(err) : car = data
+    })
+    return car
+}
+%> 

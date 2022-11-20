@@ -1,0 +1,43 @@
+<%- include('partials/header') -%>
+
+<link rel="stylesheet" href="/css/driver.css">
+
+<div class="sidenav">
+    <a href="#">Previous Requests</a>
+    <a href="#">Pending Requests</a>
+</div>
+
+<main class="container">
+<h1>Hello 
+    <%= hod.name %> 
+</h1>
+
+<table class="table table-bordered table-hover">
+    <thead class="thead-dark">
+        <tr>
+            <th scope = 'col'>Status</th>
+            <th scope = 'col'>Driver</th>
+            <th scope = 'col'>Car</th>
+        </tr>
+    </thead>
+
+<% requests.forEach(function(request){ %> 
+
+    <tr>
+        <td>
+            <%= request.status %> 
+        </td>
+        <td>
+            <%= request.driver %> 
+        </td>
+        <td>
+            <%= request.car %> 
+        </td>
+    </tr>
+
+<% }) %> 
+</table>
+
+</main>
+
+<%- include('partials/footer') -%>
