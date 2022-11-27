@@ -30,7 +30,8 @@ app.use(passport.session())
 require('./utils/passportConfig')
 
 //MongoDB configuration
-mongoose.connect('mongodb://localhost:27017/fleetDB');
+// mongoose.connect('mongodb://localhost:27017/fleetDB');
+mongoose.connect('mongodb+srv://kibe:lennykibe@cluster0.odumznx.mongodb.net/?retryWrites=true&w=majority')
 require('./utils/setup')
 const Employee = mongoose.model('Employee');
 const Car = mongoose.model('Car');

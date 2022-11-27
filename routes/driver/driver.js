@@ -26,7 +26,7 @@ router.get('/', async function(req, res){
                         }else{
                             cars = data
                             res.render('driver', {requests : requests,
-                                                 driver : driver,
+                                                 user : driver,
                                                  cars : cars,
                             })
                         }
@@ -42,7 +42,7 @@ router.get('/', async function(req, res){
 })
 
 router.get('/requestcar', function(req, res){
-    res.render('requestcar')
+    res.render('requestcar', {user : req.user})
 })
 
 router.post('/requestcar', function(req, res){

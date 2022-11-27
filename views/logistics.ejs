@@ -1,50 +1,57 @@
 <%- include('partials/header') -%>
+<%- include('partials/top-navbar') -%>
+<%- include('partials/side-navbar') -%>
 
-<link rel="stylesheet" href="/css/driver.css">
+<div class="mcw">
+    <div class="cv">
+      <div>
+        <div class="inbox">
+          <div class="inbox-sb">
+            <div class="content">
+                <table class="table table-bordered table-hover">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope = 'col'>Car</th>
+                            <th scope = 'col'>HOD</th>
+                            <th scope = 'col'>Finance</th>
+                            <th scope = 'col'>Logistics</th>
+                            <th scope = 'col'>Status</th>
+                        </tr>
+                    </thead>
 
-<div class="sidenav">
-    <a href="#">Previous Requests</a>
-    <a href="/logistics/pendingrequest">Pending Requests</a>
+                <% requests.forEach(function(request){ %> 
+
+                    <tr>
+                        <td>
+                            <%= request.car %> 
+                        </td>
+                        <td>
+                            <%= request.HOD_approver %> 
+                        </td>
+                        <td>
+                            <%= request.finance_approver %>  
+                        </td>
+                        <td>
+                            <%= request.logistics_approver %> 
+                        </td>
+                        <td>
+                            <%= request.status %> 
+                        </td>
+                    </tr>
+
+                <% }) %> 
+                </table>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
-<main class="container">
-<h1>Hello 
-    <%= logistics.name %> 
-</h1>
+<script>
+    document.querySelector('#sidenav-1').classList.add('active')
+</script>
 
-<table class="table table-bordered table-hover">
-    <thead class="thead-dark">
-        <tr>
-            <th scope = 'col'>Car</th>
-            <th scope = 'col'>HOD</th>
-            <th scope = 'col'>Finance</th>
-            <th scope = 'col'>Logistics</th>
-            <th scope = 'col'>Status</th>
-        </tr>
-    </thead>
-
-<% requests.forEach(function(request){ %> 
-
-    <tr>
-        <td>
-            <%= request.car %> 
-        </td>
-        <td>
-            <%= request.HOD_approver %> 
-        </td>
-        <td>
-            <%= request.finance_approver %>  
-        </td>
-        <td>
-            <%= request.logistics_approver %> 
-        </td>
-        <td>
-            <%= request.status %> 
-        </td>
-    </tr>
-
-<% }) %> 
-</table>
 
 </main>
 

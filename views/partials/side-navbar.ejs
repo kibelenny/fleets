@@ -1,0 +1,25 @@
+ <div class="msb" id="msb">
+        <nav class="navbar navbar-default" role="navigation">
+          <div class="navbar-header">
+            <div class="brand-wrapper">
+              <div class="brand-name-wrapper">
+                <a class="navbar-brand" href="#">
+                  Adrian Fleet System
+                </a>
+              </div>
+      
+            </div>
+      
+          </div>
+      
+          <div class="side-menu-container">
+            <ul class="nav navbar-nav">
+              <li id="sidenav-1"><a href="/<%= user.role %>">Completed Requests</a></li>
+              <li id="sidenav-2"><a href="/<%= user.role %>/pendingrequest">Pending Requests</a></li>
+              <% if(user.role == "Driver") {%> 
+                <li id="sidenav-3"><a href="/driver/requestcar">Borrow Car Form</a></li>
+              <% } %> 
+            </ul>
+          </div>
+        </nav>
+      </div>

@@ -99,3 +99,7 @@ a:hover{
     
     color: #0ba0b7aa;
 }
+
+.navbar :last-child{
+    display: inline;
+}

@@ -21,7 +21,7 @@ router.get('/', async function(req, res){
             err ? console.log(err) : requests = await data
 
             res.render('finance',  {requests : requests,
-                                finance : finance,
+                                user : finance,
                                 })
         })
 

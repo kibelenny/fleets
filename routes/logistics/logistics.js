@@ -21,7 +21,7 @@ router.get('/', async function(req, res){
             err ? console.log(err) : requests = await data
 
             res.render('logistics',  {requests : requests,
-                                logistics : logistics,
+                                user : logistics,
                                 })
         })
 

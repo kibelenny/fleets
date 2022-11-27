@@ -1,52 +1,57 @@
 <%- include('partials/header') -%>
+<%- include('partials/top-navbar') -%>
+<%- include('partials/side-navbar') -%>
 
-<link rel="stylesheet" href="/css/driver.css">
+<div class="mcw">
+    <div class="cv">
+      <div>
+        <div class="inbox">
+          <div class="inbox-sb">
+            <div class="content">
+                <table class="table table-bordered table-hover">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope = 'col'>Status</th>
+                            <th scope = 'col'>Driver</th>
+                            <th scope = 'col'>Car</th>
+                            <th scope="col">Review</th>
+                        </tr>
+                    </thead>
 
-<div class="sidenav">
-    <a href="#">Previous Requests</a>
-    <a href="#">Pending Requests</a>
+                <% requests.forEach(function(request){ %> 
+
+                    <tr>
+                        <td>
+                            <%= request.status %> 
+                        </td>
+                        <td>
+                            <%= request.driver %> 
+                        </td>
+                        <td>
+                            <%= request.car %> 
+                        </td>
+
+                        <td>
+                            <form action="/<%= user.role %>/pendingrequest" method="post">
+                                <input type="hidden" name="request_id" value="<%= request.id %>">
+                                <button type="submit" class="btn btn-primary">Review</button>
+                            </form>
+                        </td>
+                        
+                    </tr>
+
+                <% }) %> 
+                </table>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
-<main class="container">
-<h1>Hello 
-    <%= user.name %> 
-</h1>
-
-<table class="table table-bordered table-hover">
-    <thead class="thead-dark">
-        <tr>
-            <th scope = 'col'>Status</th>
-            <th scope = 'col'>Driver</th>
-            <th scope = 'col'>Car</th>
-            <th scope="col">Review</th>
-        </tr>
-    </thead>
-
-<% requests.forEach(function(request){ %> 
-
-    <tr>
-        <td>
-            <%= request.status %> 
-        </td>
-        <td>
-            <%= request.driver %> 
-        </td>
-        <td>
-            <%= request.car %> 
-        </td>
-
-        <td>
-            <form action="/<%= user.role %>/pendingrequest" method="post">
-                <input type="hidden" name="request_id" value="<%= request.id %>">
-                <button type="submit" class="btn btn-primary">Review</button>
-            </form>
-        </td>
-        
-    </tr>
-
-<% }) %> 
-</table>
-
 </main>
+<script>
+        document.querySelector('#sidenav-2').classList.add('active')
+</script>
 
 <%- include('partials/footer') -%>
