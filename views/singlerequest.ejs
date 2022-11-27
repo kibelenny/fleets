@@ -1,0 +1,20 @@
+<%- include('partials/header') -%>
+<main class="container">
+    <form action="/<%= user.role %>/singlerequest" method="post">
+        <input type="text" value="<%= request.driver %>" disabled>
+        <input type="text" value="<%= request.status %>" disabled>
+        <input type="hidden" name="request_id" value="<%= request.id %>">
+
+        <label for="approve">Approve/Reject</label>
+        <select name="approve" id="approve" required>
+            <option value="Approve">Approve</option>
+            <option value="Denied">Denied</option>
+        </select>
+
+        <label for="comment">Comments</label>
+        <textarea name="comment" id="Comment" ></textarea>
+
+        <button type="submit">Submit</button>
+    </form>
+</main>
+<%- include('partials/footer') -%>

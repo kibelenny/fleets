@@ -2,192 +2,102 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const ejs = require('ejs')
 const mongoose = require('mongoose')
+const bcrypt = require('bcrypt')
+const session = require('express-session')
+const passport = require('passport')
+const passportLocalMongoose = require('passport-local-mongoose')
+const flash = require('express-flash')
 
-require('./stuff/setup')
+const helper = require('./utils/helper')
+const isAuthenticated = helper.isAuthenticated;
+const isNotAuthenticated = helper.isNotAuthenticated;
 
+//Setup the main app and middelware
 const app = express()
-
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended : true}));
 app.use(express.static('public'));
 
-//MongoDB
+app.use(flash())
+app.use(session({
+    secret : 'Password Secret',
+    resave : false,
+    saveUninitialized : false,
+}))
+
+app.use(passport.initialize());
+app.use(passport.session())
+require('./utils/passportConfig')
+
+//MongoDB configuration
 mongoose.connect('mongodb://localhost:27017/fleetDB');
+require('./utils/setup')
 const Employee = mongoose.model('Employee');
 const Car = mongoose.model('Car');
 const Request = mongoose.model('Request')
 
-var helper = require('./helper')
+//Routes and respective imports
+const hod_router = require('./routes/hod/hod')
+const finance_router = require('./routes/finance/finance')
+const logistics_router = require('./routes/logistics/logistics')
+const driver_router = require('./routes/driver/driver')
 
+app.use('/hod', isAuthenticated, hod_router)
+app.use('/finance', isAuthenticated, finance_router)
+app.use('/logistics',isAuthenticated, logistics_router)
+app.use('/driver', isAuthenticated, driver_router)
 
+//GET requests
+app.get('/',function(req, res){
+    if(req.user){
+        let link = '/' + req.user.role;
+        app.locals.user_id = req.user.id
+        res.redirect(link)
+    }else{
+        res.redirect('/login')
+    }
+})
 
-
-app.get('/', function(req, res){
+app.get('/login', function(req, res){
     res.render('login')
 })
 
-let user = null;
-let driver = null;
-let hod = null;
-let finance = null;
-let logistics = null;
-let requests = null;
-
-app.get('/home', function(req, res){
-    res.render('home')
-})
-  
-app.get('/driver', function(req, res){
-	let user_id = "6355b1cdb5d7755a91f37464"
-
-	Employee.findOne({'id': user_id}, function (err, data) {
-		err ? console.log(err) : driver = data
-	})
-
-    Request.find({'driver' : driver.name}, function(err,data){
-        err ? console.log(err) : requests = data
-    })
-
-    res.render('driver', {requests : requests,
-                        driver : driver,
-                        helper : helper,
-                        getUser : getUser})
+app.get('/register', (req, res) =>{
+    res.render('register')
 })
 
-app.get('/hod', function(req, res){
-	let hod_id = "6355b1f8b5d7755a91f37465"
-
-	Employee.findOne({'_id': hod_id}, function (err, data) {
-        if(err){
-            console.log(err);
-        }else{
-            hod = data
-        }
-    })
-
-    Request.find({'HOD_approver' : hod.name}, function(err,data){
-        err ? console.log(err) : requests = data
-    })
-
-    res.render('hod', {requests : requests,
-                        hod : hod,
-                        })
+app.get('/logout',isAuthenticated, (req, res) =>{
+    req.logout(function(err) {
+        if (err) { return next(err); }
+        res.redirect('/');
+      });
 })
 
-app.get('/finance', function(req, res){
-	let finance_id = "6355b202b5d7755a91f37466"
 
-	Employee.findOne({'_id': finance_id}, function (err, data) {
-        if(err){
-            console.log(err);
-        }else{
-            finance = data
-            console.log(finance);
-        }
+//POST requests
+app.post('/register', async (req, res) =>{
+  try{
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    const newEmployee = await Employee.create({
+        'employee_id' : req.body.employee_id,
+        'name' : req.body.name,
+        'role' : req.body.role,
+        'employee_email' : req.body.email,
+        'password' : hashedPassword
     })
-
-    Request.find({'finance_approver' : finance.name}, function(err,data){
-        err ? console.log(err) : requests = data
-    })
-
-    res.render('finance', {requests : requests,
-                        finance : finance,
-                        getUser : getUser})
+    await newEmployee.save()
+    res.redirect('/')
+  } catch{
+    res.redirect('/register')
+  }
 })
 
-app.get('/logistics', function(req, res){
-	let logistics_id = "6355b209b5d7755a91f37467"
-
-	Employee.findOne({'_id': logistics_id}, function (err, data) {
-        if(err){
-            console.log(err);
-        }else{
-            logistics = data
-            console.log(logistics);
-        }
-    })
-
-    Request.find({'logistics_approver' : logistics.name}, function(err,data){
-        err ? console.log(err) : requests = data
-    })
-
-    res.render('logistics', {requests : requests,
-                            logistics : logistics,
-                            })
-})
-
-app.get('/driver/requestcar', function(req, res){
-    res.render('requestcar')
-})
-
-app.get('/hod/pendingrequest', function(req, res){
-    let hod_id = "6355b1f8b5d7755a91f37465"
-
-	Employee.findOne({'_id': hod_id}, function (err, data) {
-        if(err){
-            console.log(err);
-        }else{
-            hod = data
-        }
-    })
-
-    Request.find({'status' : 'Pending HOD Approval'}, function(err,data){
-        if (err){
-            console.log(err);
-        }else{
-            requests = data
-            console.log(hod.id);
-            res.render('pendingrequest', {requests : requests,
-                hod : hod})
-        }
-    })
-})
-
-app.post('/', function (req, res) {
-    Employee.findOne({'employee_email': req.body.email}, function (err, data) {
-        user = data;
-    })
-
-    // if (user.role == 'Driver'){
-    //     res.redirect('/driver')
-    // }else{
-    //     res.redirect('/approver')
-    // }
-
-    res.redirect('/driver')
-    
-})
-
-app.post('/requestcar', function(req, res){
-    let employee_id = req.body.id
-    let name = null;
-
-    Employee.findOne({'employee_id' : employee_id.toUpperCase()}, async function(err, data){
-        if (err){
-            console.log(err);
-        }else{
-            name = await data.name
-            const new_request = await Request.create({'driver' : name})
-            await new_request.save()
-            res.redirect('/driver')
-        }
-    })
-})
+app.post('/login', passport.authenticate('local', {
+    successRedirect : '/',
+    failureRedirect : '/login',
+    failureFlash: true
+}))
 
 app.listen(3000, function(){
     console.log('Server running on port 3000');
-})
-
-
-
-function getUser(user_id){
-    Employee.findById(user_id, function(err, data){
-        err ? console.log(err) : guy = data
-    })
-
-    return guy.name
-}
-
-Request.find({'driver' : 'Lenny Kibe', 'status' : 'Pending HOD Approval'}, function(err, data){
-    err ? console.log(err) : console.log(data)
 })
