@@ -31,11 +31,19 @@ require('./utils/passportConfig')
 
 //MongoDB configuration
 // mongoose.connect('mongodb://localhost:27017/fleetDB');
-mongoose.connect('mongodb+srv://kibe:lennykibe@cluster0.odumznx.mongodb.net/?retryWrites=true&w=majority')
+mongoose.connect('mongodb+srv://kibe:lennykibe@cluster0.odumznx.mongodb.net/fleetDB')
 require('./utils/setup')
 const Employee = mongoose.model('Employee');
 const Car = mongoose.model('Car');
 const Request = mongoose.model('Request')
+
+Employee.find((err, data) =>{
+    if(err){
+        console.log(err);
+    }else{
+        console.log(data);
+    }
+})
 
 //Routes and respective imports
 const hod_router = require('./routes/hod/hod')
