@@ -62,7 +62,7 @@ router.post('/requestcar', function(req, res){
 })
 
 //Pending Requests
-app.get('/pendingrequest', (req, res) =>{
+router.get('/pendingrequest', (req, res) =>{
     res.redirect('/')
 })
 
