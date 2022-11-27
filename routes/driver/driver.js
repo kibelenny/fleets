@@ -61,4 +61,9 @@ router.post('/requestcar', function(req, res){
     })
 })
 
+//Pending Requests
+app.get('/pendingrequest', (req, res) =>{
+    res.redirect('/')
+})
+
 module.exports = router
