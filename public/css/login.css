@@ -1,0 +1,18 @@
+.form-container{
+    margin: 5rem 0;
+}
+
+form { 
+    margin:auto; 
+    width:30%;
+    text-align: center;
+    }
+
+form input{
+    margin: 1rem 0;
+}
+
+.message{
+    color: red;
+    font-size: 2rem;
+}

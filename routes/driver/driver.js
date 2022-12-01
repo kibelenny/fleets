@@ -63,7 +63,17 @@ router.post('/requestcar', function(req, res){
 
 //Pending Requests
 router.get('/pendingrequest', (req, res) =>{
-    res.redirect('/')
+    let user = req.user;
+    let requests = null;
+    Request.find({'driver' : req.user.name, $and : [{'status' : {$not : {$regex : 'Approved'}}}, {'status' : {$not : {$regex : 'Denied'}}}]}, async function(err, data){
+        if (err){
+            console.log(err);
+        }else{
+            requests = data;
+            res.render('pendingrequest', {requests : requests,
+                                        user : user})
+        }
+    })
 })
 
 module.exports = router

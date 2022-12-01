@@ -8,13 +8,15 @@
         <div class="inbox">
           <div class="inbox-sb">
             <div class="content">
-                <table class="table table-bordered table-hover">
+                <table class="table table-hover">
                     <thead class="thead-dark">
                         <tr>
                             <th scope = 'col'>Status</th>
                             <th scope = 'col'>Driver</th>
                             <th scope = 'col'>Car</th>
+                            <% if(user.role != 'Driver') {%> 
                             <th scope="col">Review</th>
+                            <% } %> 
                         </tr>
                     </thead>
 
@@ -31,12 +33,14 @@
                             <%= request.car %> 
                         </td>
 
+                        <% if(user.role != 'Driver') {%> 
                         <td>
                             <form action="/<%= user.role %>/pendingrequest" method="post">
                                 <input type="hidden" name="request_id" value="<%= request.id %>">
                                 <button type="submit" class="btn btn-primary">Review</button>
                             </form>
                         </td>
+                        <% } %> 
                         
                     </tr>
 

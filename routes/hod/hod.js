@@ -21,7 +21,7 @@ router.get('/', async function(req, res){
             err ? console.log(err) : requests = await data
 
             res.render('hod',  {requests : requests,
-                                hod : hod,
+                                user : hod,
                                 })
         })
 
@@ -48,7 +48,7 @@ router.get('/pendingrequest', function(req, res){
         }else{
             requests = data
             res.render('pendingrequest', {requests : requests,
-                hod : hod})
+                user : req.user})
         }
     })
 })
@@ -61,7 +61,8 @@ router.get('/pendingrequest/:id', async function(req, res){
             console.log(err);
         }else{
             request = data;
-            res.render('singlerequest', {request : request})
+            res.render('singlerequest', {request : request,
+                                        user : req.user})
         }
     })
 })

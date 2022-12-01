@@ -37,14 +37,6 @@ const Employee = mongoose.model('Employee');
 const Car = mongoose.model('Car');
 const Request = mongoose.model('Request')
 
-Employee.find((err, data) =>{
-    if(err){
-        console.log(err);
-    }else{
-        console.log(data);
-    }
-})
-
 //Routes and respective imports
 const hod_router = require('./routes/hod/hod')
 const finance_router = require('./routes/finance/finance')
@@ -67,7 +59,7 @@ app.get('/',function(req, res){
     }
 })
 
-app.get('/login', function(req, res){
+app.get('/login', isNotAuthenticated, function(req, res){
     res.render('login')
 })
 

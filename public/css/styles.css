@@ -93,3 +93,7 @@ p {
   position: relative;
   min-height: 100%;
 }
+
+.content{
+  padding: 15px;
+}
