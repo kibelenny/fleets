@@ -45,11 +45,12 @@ router.get('/requestcar', function(req, res){
     res.render('requestcar', {user : req.user})
 })
 
-router.post('/requestcar', function(req, res){
-    let employee_id = req.body.id
-    let name = null;
 
-    Employee.findOne({'employee_id' : employee_id.toUpperCase()}, async function(err, data){
+router.post('/requestcar', function(req, res){
+    let name = null;
+    let driver_id = req.app.locals.user_id;
+
+    Employee.findOne({'_id' : driver_id}, async function(err, data){
         if (err){
             console.log(err);
         }else{
