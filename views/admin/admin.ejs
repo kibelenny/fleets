@@ -1,0 +1,33 @@
+<%- include('header') -%>
+<%- include('top-navbar') -%>
+<%- include('side-navbar') -%>
+
+<div class="mcw">
+    <div class="cv">
+      <div>
+        <div class="inbox">
+          <div class="inbox-sb">
+            <div class="content">
+                <table class="table table-hover">
+                    <thead class="thead-dark">
+                        <th scope="col">Name</th>
+                        <th scope="col">Role</th>
+                        <th scope="col">Email</th>
+                    </thead>
+
+                    <% employees.forEach(function(employee){ %>
+                        <tr>
+                            <td> <%= employee.name %> </td>
+                            <td> <%= employee.role %> </td>
+                            <td> <%= employee.employee_email %> </td>
+                        </tr>
+                    <% }) %>  
+                </table>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('footer') -%>

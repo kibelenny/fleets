@@ -42,11 +42,14 @@ const hod_router = require('./routes/hod/hod')
 const finance_router = require('./routes/finance/finance')
 const logistics_router = require('./routes/logistics/logistics')
 const driver_router = require('./routes/driver/driver')
+const admin_router = require('./routes/admin/admin')
 
 app.use('/hod', isAuthenticated, hod_router)
 app.use('/finance', isAuthenticated, finance_router)
 app.use('/logistics',isAuthenticated, logistics_router)
 app.use('/driver', isAuthenticated, driver_router)
+app.use('/admin', isAuthenticated, admin_router)
+
 
 //GET requests
 app.get('/',function(req, res){

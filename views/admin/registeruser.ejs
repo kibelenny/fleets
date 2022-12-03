@@ -1,0 +1,44 @@
+<%- include('header') -%>
+<%- include('top-navbar') -%>
+<%- include('side-navbar') -%>
+
+<div class="mcw">
+    <div class="cv">
+      <div>
+        <div class="inbox">
+          <div class="inbox-sb">
+            <div class="content">
+                <form method="post" action="/admin/registeruser">
+                      
+                        <label for="name">Name</label>
+                        <input type="text" class="form-control" placeholder="Name" name="name" required>
+
+                        <label for="employee_id">Employee ID</label>
+                        <input type="text" class="form-control" placeholder="Employee ID" name="employee_id" required>
+
+                        <label for="role">Role</label>
+
+                        <select name="role" class = 'form-control'required>
+                          <option value="Admin">Admin</option>
+                          <option value="Driver">Driver</option>
+                          <option value="HOD">HOD</option>
+                          <option value="Finance">Finance</option>
+                          <option value="Logistics">Logistics</option>
+                        </select>
+
+                        <label for="employee_email">Email</label>
+                        <input type="email" class="form-control" placeholder="Email" name="employee_email" required>
+
+                        <label for="password">Passowrd</label>
+                        <input type="password" class="form-control" placeholder="Password" name="password" required>
+
+                    <button type="submit" class="btn btn-primary">Register User</button> 
+                </form>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('footer') -%>

@@ -97,3 +97,8 @@ p {
 .content{
   padding: 15px;
 }
+
+#float-right{
+  float:right;
+  margin-bottom: 5rem;
+}

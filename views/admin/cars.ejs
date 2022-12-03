@@ -1,0 +1,51 @@
+<%- include('header') -%>
+<%- include('top-navbar') -%>
+<%- include('side-navbar') -%>
+
+<div class="mcw">
+    <div class="cv">
+      <div>
+        <div class="inbox">
+          <div class="inbox-sb">
+            <div class="content">
+
+                <form action="/admin/registercar" class="form-inline float-right" method="post" id="float-right">
+                    <h2 class="strong">Register New Car</h2>
+
+                    <div class="form-group">
+                        <label for="number_plate">Number Plate</label>
+                        <input type="text" class="form-control" name="number_plate" placeholder="Number Plate">
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="type">Type of Car</label>
+                        <input type="text" class="form-control" name="type" placeholder="Type (Lorry, Pickup etc)">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Register Car</button> 
+                </form>
+
+                <table class="table table-hover">
+                    <thead class="thead-dark">
+                        <th scope="col">Number Plate</th>
+                        <th scope="col">Type</th>
+                        <th scope="col">Status</th>
+                    </thead>
+
+                    <% cars.forEach(function(car){ %> 
+                        <tr>
+                            <td><%= car.number_plate %> </td>
+                            <td><%= car.type %> </td>
+                            <td><%= car.status %> </td>
+                        </tr>
+                    <% }) %> 
+                </table>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('footer') -%>
